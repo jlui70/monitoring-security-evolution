@@ -29,13 +29,56 @@ Proporcionar um **caminho de aprendizado prático** para implementar segurança 
 
 ## 📊 Níveis de Maturidade em Segurança
 
-| Level | Segurança | Stack Principal | Secrets Management | Custo/mês | Status |
-|-------|-----------|-----------------|-------------------|-----------|--------|
-| 🟢 [**Level 1**](https://github.com/jlui70/monitoring-security-level1) | **Base Funcional** | Docker Compose | Hardcoded (⚠️ Dev only) | $0 | ✅ Completo |
-| 🟡 [**Level 2**](https://github.com/jlui70/monitoring-security-level2) | **Env Variables** | Docker Compose | .env files | $0 | ✅ Completo |
-| 🟠 [**Level 3**](https://github.com/jlui70/monitoring-security-level3) | **Vault On-Premise** | Docker + Vault | HashiCorp Vault | $0 | ✅ Completo |
-| 🔴 [**Level 4**](https://github.com/jlui70/monitoring-security-level4) | **Cloud Native** | AWS + ECS/Fargate | AWS Secrets Manager | ~$0.40 | ✅ Completo |
-| 🟣 **Level 5** | **Zero-Trust** | Kubernetes + Vault | External Secrets Operator | ~$5-10 | 🔜 Em breve |
+<table>
+<tr>
+<th>Level</th>
+<th>Segurança</th>
+<th>Stack</th>
+<th>Secrets</th>
+<th>Custo/mês</th>
+<th>Status</th>
+</tr>
+<tr>
+<td>🟢 <a href="https://github.com/jlui70/monitoring-security-level1"><strong>L1</strong></a></td>
+<td><strong>Base</strong></td>
+<td>Docker Compose</td>
+<td>Hardcoded ⚠️</td>
+<td>$0</td>
+<td>✅ Completo</td>
+</tr>
+<tr>
+<td>🟡 <a href="https://github.com/jlui70/monitoring-security-level2"><strong>L2</strong></a></td>
+<td><strong>Env Vars</strong></td>
+<td>Docker Compose</td>
+<td>.env files</td>
+<td>$0</td>
+<td>✅ Completo</td>
+</tr>
+<tr>
+<td>🟠 <a href="https://github.com/jlui70/monitoring-security-level3"><strong>L3</strong></a></td>
+<td><strong>Vault</strong></td>
+<td>Docker + Vault</td>
+<td>HashiCorp Vault</td>
+<td>$0</td>
+<td>✅ Completo</td>
+</tr>
+<tr>
+<td>🔴 <a href="https://github.com/jlui70/monitoring-security-level4"><strong>L4</strong></a></td>
+<td><strong>Cloud</strong></td>
+<td>AWS ECS/Fargate</td>
+<td>AWS Secrets Mgr</td>
+<td>~$0.40</td>
+<td>✅ Completo</td>
+</tr>
+<tr>
+<td>🟣 <strong>L5</strong></td>
+<td><strong>Zero-Trust</strong></td>
+<td>K8s + Vault</td>
+<td>External Secrets</td>
+<td>~$5-10</td>
+<td>🔜 Em breve</td>
+</tr>
+</table>
 
 ---
 
@@ -44,22 +87,21 @@ Proporcionar um **caminho de aprendizado prático** para implementar segurança 
 ### 📍 Você Está Aqui
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                    EVOLUÇÃO DE SEGURANÇA                            │
-└─────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│                  EVOLUÇÃO DE SEGURANÇA                       │
+└──────────────────────────────────────────────────────────────┘
 
-  Level 1          Level 2           Level 3          Level 4        Level 5
-  ┌─────┐         ┌─────┐          ┌─────┐         ┌─────┐         ┌─────┐
-  │ 🟢  │    →    │ 🟡  │    →     │ 🟠  │    →    │ 🔴  │    →    │ 🟣  │
-  │Base │         │ Env │          │Vault│         │ AWS │         │Zero │
-  │     │         │Vars │          │     │         │Cloud│         │Trust│
-  └─────┘         └─────┘          └─────┘         └─────┘         └─────┘
-    ↓               ↓                ↓               ↓               ↓
- Docker          .env            On-Prem         Secrets         K8s +
- Compose         Files            Vault          Manager         Vault
-  
-  $0/mês          $0/mês           $0/mês        ~$0.40/mês     ~$5-10/mês
-  Dev/POC      Dev/Staging      Small Prod     Medium Prod    Enterprise
+   L1           L2           L3           L4           L5
+┌──────┐    ┌──────┐    ┌──────┐    ┌──────┐    ┌──────┐
+│ Base │ -> │ Env  │ -> │Vault │ -> │ AWS  │ -> │Zero  │
+│      │    │ Vars │    │      │    │Cloud │    │Trust │
+└──────┘    └──────┘    └──────┘    └──────┘    └──────┘
+   ↓           ↓           ↓           ↓           ↓
+Docker      .env       On-Prem     Secrets      K8s +
+Compose     Files      Vault       Manager      Vault
+
+$0/mês      $0/mês     $0/mês     ~$0.40/mês   ~$5-10/mês
+Dev/POC   Dev/Stage  Small Prod  Medium Prod  Enterprise
 ```
 
 ---
@@ -171,23 +213,23 @@ cd monitoring-security-level4
 
 **Arquitetura:**
 ```
-┌─────────────────────────────────────────────┐
-│             AWS Cloud (us-east-1)           │
-│                                             │
-│  ┌──────────────────────────────────────┐  │
-│  │        AWS Secrets Manager           │  │
-│  │  • Secrets versionados               │  │
-│  │  • Rotation automática               │  │
-│  │  • Encryption com KMS                │  │
-│  └──────────────┬───────────────────────┘  │
-│                 │                           │
-│  ┌──────────────▼───────────────────────┐  │
-│  │         ECS/Fargate Tasks            │  │
-│  │  • Zabbix Server                     │  │
-│  │  • Grafana                           │  │
-│  │  • Prometheus                        │  │
-│  └──────────────────────────────────────┘  │
-└─────────────────────────────────────────────┘
+┌────────────────────────────────────────┐
+│       AWS Cloud (us-east-1)        │
+│                                      │
+│  ┌────────────────────────────┐  │
+│  │   AWS Secrets Manager    │  │
+│  │  - Secrets versionados   │  │
+│  │  - Rotation automatica   │  │
+│  │  - Encryption com KMS    │  │
+│  └───────────┬────────────────┘  │
+│              │                     │
+│  ┌───────────┴────────────────┐  │
+│  │    ECS/Fargate Tasks      │  │
+│  │  - Zabbix Server         │  │
+│  │  - Grafana               │  │
+│  │  - Prometheus            │  │
+│  └────────────────────────────┘  │
+└────────────────────────────────────────┘
 ```
 
 ---
@@ -209,26 +251,30 @@ cd monitoring-security-level4
 
 **Arquitetura planejada:**
 ```
-┌──────────────────────────────────────────────────┐
-│           Kubernetes Cluster                     │
-│                                                  │
-│  ┌────────────────────────────────────────────┐ │
-│  │     External Secrets Operator (ESO)        │ │
-│  │           ↓                ↓                │ │
-│  │    ┌──────────┐     ┌──────────┐          │ │
-│  │    │  Vault   │     │   AWS    │          │ │
-│  │    │ External │     │ Secrets  │          │ │
-│  │    │ Secrets  │     │ Manager  │          │ │
-│  │    └──────────┘     └──────────┘          │ │
-│  └────────────────────────────────────────────┘ │
-│                                                  │
-│  ┌────────────────────────────────────────────┐ │
-│  │         Service Mesh (mTLS)                │ │
-│  │    ┌──────┐  ┌──────┐  ┌──────┐          │ │
-│  │    │Zabbix│◄─┤Grafana│◄─┤Prom │          │ │
-│  │    └──────┘  └──────┘  └──────┘          │ │
-│  └────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────┘
+┌──────────────────────────────────────────┐
+│        Kubernetes Cluster        │
+│                                          │
+│  ┌────────────────────────────────────┐  │
+│  │ External Secrets Operator (ESO)   │  │
+│  │            |                       │  │
+│  │      ┌─────┼─────┐                │  │
+│  │      |           |                │  │
+│  │  ┌───┴───┐   ┌───┴────┐          │  │
+│  │  │ Vault │   │  AWS   │          │  │
+│  │  │Secrets│   │Secrets │          │  │
+│  │  │       │   │Manager │          │  │
+│  │  └───────┘   └────────┘          │  │
+│  └────────────────────────────────────┘  │
+│                                          │
+│  ┌────────────────────────────────────┐  │
+│  │   Service Mesh (mTLS)             │  │
+│  │                                    │  │
+│  │  ┌───────────────────────────┐    │  │
+│  │  │ Zabbix <-> Grafana <->    │    │  │
+│  │  │         Prometheus         │    │  │
+│  │  └───────────────────────────┘    │  │
+│  └────────────────────────────────────┘  │
+└──────────────────────────────────────────┘
 ```
 
 ---
