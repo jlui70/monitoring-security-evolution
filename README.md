@@ -91,17 +91,17 @@ Proporcionar um **caminho de aprendizado prático** para implementar segurança 
 │                  EVOLUÇÃO DE SEGURANÇA                       │
 └──────────────────────────────────────────────────────────────┘
 
-   L1           L2           L3           L4           L5
+   L1           L2         L3          L4          L5
 ┌──────┐    ┌──────┐    ┌──────┐    ┌──────┐    ┌──────┐
-│ Base │ -> │ Env  │ -> │Vault │ -> │ AWS  │ -> │Zero  │
-│      │    │ Vars │    │      │    │Cloud │    │Trust │
+│ Base │ -> │ Env  │ -> │ Vault│ -> │ AWS  │ -> │ Zero │
+│      │    │ Vars │    │      │    │Cloud │    │ Trust│
 └──────┘    └──────┘    └──────┘    └──────┘    └──────┘
    ↓           ↓           ↓           ↓           ↓
-Docker      .env       On-Prem     Secrets      K8s +
-Compose     Files      Vault       Manager      Vault
+Docker      .env        On-Prem     Secrets      K8s +
+Compose     Files       Vault       Manager      Vault
 
-$0/mês      $0/mês     $0/mês     ~$0.40/mês   ~$5-10/mês
-Dev/POC   Dev/Stage  Small Prod  Medium Prod  Enterprise
+$0/mês      $0/mês      $0/mês     ~$0.40/mês   ~$5-10/mês
+Dev/POC    Dev/Stage    Small Prod  Medium Prod  Enterprise
 ```
 
 ---
@@ -214,21 +214,21 @@ cd monitoring-security-level4
 **Arquitetura:**
 ```
 ┌────────────────────────────────────────┐
-│       AWS Cloud (us-east-1)        │
-│                                      │
-│  ┌────────────────────────────┐  │
-│  │   AWS Secrets Manager    │  │
-│  │  - Secrets versionados   │  │
-│  │  - Rotation automatica   │  │
-│  │  - Encryption com KMS    │  │
-│  └───────────┬────────────────┘  │
-│              │                     │
-│  ┌───────────┴────────────────┐  │
-│  │    ECS/Fargate Tasks      │  │
-│  │  - Zabbix Server         │  │
-│  │  - Grafana               │  │
-│  │  - Prometheus            │  │
-│  └────────────────────────────┘  │
+│       AWS Cloud (us-east-1)            │
+│                                        │
+│  ┌────────────────────────────┐        │
+│  │   AWS Secrets Manager      │        │
+│  │  - Secrets versionados     │        │
+│  │  - Rotation automatica     │        │
+│  │  - Encryption com KMS      │        │
+│  └───────────┬────────────────┘        │
+│              │                         │
+│  ┌───────────┴────────────────┐        │
+│  │    ECS/Fargate Tasks       │        │
+│  │  - Zabbix Server           │        │
+│  │  - Grafana                 │        │
+│  │  - Prometheus              │        │
+│  └────────────────────────────┘        │
 └────────────────────────────────────────┘
 ```
 
@@ -252,27 +252,27 @@ cd monitoring-security-level4
 **Arquitetura planejada:**
 ```
 ┌──────────────────────────────────────────┐
-│        Kubernetes Cluster        │
+│        Kubernetes Cluster                │
 │                                          │
 │  ┌────────────────────────────────────┐  │
-│  │ External Secrets Operator (ESO)   │  │
+│  │ External Secrets Operator (ESO)    │  │
 │  │            |                       │  │
-│  │      ┌─────┼─────┐                │  │
-│  │      |           |                │  │
-│  │  ┌───┴───┐   ┌───┴────┐          │  │
-│  │  │ Vault │   │  AWS   │          │  │
-│  │  │Secrets│   │Secrets │          │  │
-│  │  │       │   │Manager │          │  │
-│  │  └───────┘   └────────┘          │  │
+│  │      ┌─────┼─────┐                 │  │
+│  │      |           |                 │  │
+│  │  ┌───┴───┐   ┌───┴────┐            │  │
+│  │  │ Vault │   │  AWS   │            │  │
+│  │  │Secrets│   │Secrets │            │  │
+│  │  │       │   │Manager │            │  │
+│  │  └───────┘   └────────┘            │  │
 │  └────────────────────────────────────┘  │
 │                                          │
 │  ┌────────────────────────────────────┐  │
-│  │   Service Mesh (mTLS)             │  │
+│  │   Service Mesh (mTLS)              │  │
 │  │                                    │  │
-│  │  ┌───────────────────────────┐    │  │
-│  │  │ Zabbix <-> Grafana <->    │    │  │
+│  │  ┌───────────────────────────┐     │  │
+│  │  │ Zabbix <-> Grafana <->    │     │  │
 │  │  │         Prometheus         │    │  │
-│  │  └───────────────────────────┘    │  │
+│  │  └───────────────────────────┘     │  │
 │  └────────────────────────────────────┘  │
 └──────────────────────────────────────────┘
 ```
