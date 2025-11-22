@@ -71,12 +71,12 @@ Proporcionar um **caminho de aprendizado prático** para implementar segurança 
 <td>✅ Completo</td>
 </tr>
 <tr>
-<td>🟣 <strong>L5</strong></td>
-<td><strong>Zero-Trust</strong></td>
-<td>K8s + Vault</td>
+<td>🟣 <a href="https://github.com/jlui70/monitoring-security-level5"><strong>L5</strong></a></td>
+<td><strong>K8s + Vault</strong></td>
+<td>Kubernetes + Vault</td>
 <td>External Secrets</td>
-<td>~$5-10</td>
-<td>🔜 Em breve</td>
+<td>$0-46</td>
+<td>✅ Completo</td>
 </tr>
 </table>
 
@@ -100,7 +100,7 @@ Proporcionar um **caminho de aprendizado prático** para implementar segurança 
 Docker      .env        On-Prem     Secrets      K8s +
 Compose     Files       Vault       Manager      Vault
 
-$0/mês      $0/mês      $0/mês     ~$0.40/mês   ~$5-10/mês
+$0/mês      $0/mês      $0/mês     ~$0.40/mês   $0-46/mês
 Dev/POC    Dev/Stage    Small Prod  Medium Prod  Enterprise
 ```
 
@@ -234,48 +234,98 @@ cd monitoring-security-level4
 
 ---
 
-### 🟣 Level 5: Zero-Trust Architecture (Kubernetes)
+### 🟣 Level 5: Kubernetes + Vault (External Secrets Operator)
 
-**Ideal para:** Enterprise, multi-cloud, microservices
+**Ideal para:** Enterprise, Kubernetes, automação completa de secrets
 
-> 🔜 **Em desenvolvimento** - Previsão de lançamento: Q1 2026
+```bash
+git clone https://github.com/jlui70/monitoring-security-level5.git
+cd monitoring-security-level5
 
-**Planejado:**
-- ✅ **Kubernetes** com RBAC avançado
-- ✅ **HashiCorp Vault** em HA mode
-- ✅ **External Secrets Operator** (ESO)
-- ✅ **Service Mesh** (Istio/Linkerd) com mTLS
-- ✅ **Policy Engine** (OPA/Kyverno)
-- ✅ **Secret rotation** automática end-to-end
-- 💰 Custo estimado: ~$5-10/mês (cluster pequeno)
+# Escolha uma das 3 opções de deploy:
 
-**Arquitetura planejada:**
+# OPÇÃO 1: Local com Kind (Desenvolvimento) - $0/mês
+./scripts/deploy-local-kind.sh
+
+# OPÇÃO 2: AWS EKS (Produção) - ~$35/mês
+./scripts/deploy-aws.sh
+
+# OPÇÃO 3: AWS EKS + Ingress + HTTPS (Enterprise) - ~$46/mês
+./scripts/deploy-aws-ingress.sh
 ```
-┌──────────────────────────────────────────┐
-│        Kubernetes Cluster                │
-│                                          │
-│  ┌────────────────────────────────────┐  │
-│  │   External Secrets Operator (ESO)  │  │
-│  │                 |                  │  │
-│  │           ┌─────┼─────┐            │  │
-│  │           |           |            │  │
-│  │       ┌───┴───┐   ┌───┴────┐       │  │
-│  │       │ Vault │   │  AWS   │       │  │
-│  │       │Secrets│   │Secrets │       │  │
-│  │       │       │   │Manager │       │  │
-│  │       └───────┘   └────────┘       │  │
-│  └────────────────────────────────────┘  │
-│                                          │
-│  ┌────────────────────────────────────┐  │
-│  │        Service Mesh (mTLS)         │  │
-│  │                                    │  │
-│  │    ┌───────────────────────────┐   │  │
-│  │    │ Zabbix <-> Grafana <->    │   │  │
-│  │    │         Prometheus        │   │  │
-│  │    └───────────────────────────┘   │  │
-│  └────────────────────────────────────┘  │
-└──────────────────────────────────────────┘
+
+**Stack incluído:**
+- 📊 **Zabbix** Server + Agent (auto-configurado)
+- 📈 **Grafana** com datasources e dashboards pré-configurados
+- 📉 **Prometheus** + Node Exporter
+- 🗄️ **MySQL** (stateful)
+- 🔐 **HashiCorp Vault** (KV v2 secrets engine)
+- 🔄 **External Secrets Operator** (sincronização automática)
+- 🌐 **NGINX Ingress Controller** (opção 3)
+- 🔒 **Cert-Manager** + Let's Encrypt (opção 3)
+
+**Evolução do Level 3 e 4:**
+- ✅ **ZERO arquivos `.env`** - Secrets direto do Vault
+- ✅ **Sincronização automática** - Refresh a cada 1 hora
+- ✅ **Kubernetes native** - Secrets como K8s resources
+- ✅ **3 opções de deploy** - Local, AWS, AWS+Ingress
+- ✅ **Load Balancer** + HTTPS automático (opção 3)
+- ✅ **Auto-configuração** - Zabbix e Grafana prontos para usar
+- ✅ **Multi-cloud ready** - Não depende de AWS (Kind funciona anywhere)
+- 💰 **Flexível:** $0 (local) até $46/mês (AWS full)
+
+**Arquitetura (AWS + Ingress):**
 ```
+┌─────────────────────────────────────────────────┐
+│         AWS EKS Cluster (us-east-1)             │
+│                                                 │
+│  ┌──────────────────────────────────────────┐   │
+│  │    Network Load Balancer (NLB)          │   │
+│  │    ↓ HTTPS (Let's Encrypt)              │   │
+│  │  ┌────────────────────────────────────┐ │   │
+│  │  │   NGINX Ingress Controller         │ │   │
+│  │  │   - grafana.domain.com             │ │   │
+│  │  │   - zabbix.domain.com              │ │   │
+│  │  │   - prometheus.domain.com          │ │   │
+│  │  └────────────────────────────────────┘ │   │
+│  └──────────────────────────────────────────┘   │
+│                                                 │
+│  ┌──────────────────────────────────────────┐   │
+│  │   External Secrets Operator (ESO)       │   │
+│  │              ↓                           │   │
+│  │   ┌──────────────────────┐               │   │
+│  │   │  HashiCorp Vault     │               │   │
+│  │   │  (dev mode)          │               │   │
+│  │   │  - secret/grafana    │               │   │
+│  │   │  - secret/zabbix     │               │   │
+│  │   │  - secret/mysql      │               │   │
+│  │   └──────────────────────┘               │   │
+│  │              ↓                           │   │
+│  │   Kubernetes Secrets (auto-sync 1h)     │   │
+│  └──────────────────────────────────────────┘   │
+│                                                 │
+│  ┌──────────────────────────────────────────┐   │
+│  │   Monitoring Stack                       │   │
+│  │   - Zabbix Server (auto-configured)      │   │
+│  │   - Grafana (dashboards prontos)         │   │
+│  │   - Prometheus + Node Exporter           │   │
+│  │   - MySQL (StatefulSet)                  │   │
+│  └──────────────────────────────────────────┘   │
+│                                                 │
+│  📊 3 Nodes (t3.medium) em Multi-AZ             │
+│  💾 EBS CSI Driver para volumes persistentes    │
+│  🔐 IAM Roles para Service Accounts (IRSA)      │
+└─────────────────────────────────────────────────┘
+```
+
+**Características principais:**
+- 🔄 **Refresh automático**: Secrets atualizados a cada 1 hora
+- 🚀 **Deploy completo**: 35-45 minutos (totalmente automatizado)
+- 🎯 **Zero configuração manual**: Zabbix e Grafana prontos
+- 📊 **Dashboards incluídos**: Node Exporter + Zabbix Overview
+- 🔒 **HTTPS automático**: Let's Encrypt via Cert-Manager
+- 🌐 **DNS público**: Acesso via domínio (grafana.seu-dominio.com)
+- 💰 **3 tiers de custo**: $0 (Kind), $35/mês (EKS), $46/mês (EKS+Ingress)
 
 ---
 
@@ -299,13 +349,13 @@ cd monitoring-security-level4
 | Audit Logging | ❌ | ❌ | ✅ | ✅ | ✅ |
 | **🏗️ Infraestrutura** |
 | Docker Compose | ✅ | ✅ | ✅ | ❌ | ❌ |
-| Cloud Native (AWS) | ❌ | ❌ | ❌ | ✅ | ⚠️ |
+| Cloud Native (AWS) | ❌ | ❌ | ❌ | ✅ | ✅ |
 | Kubernetes | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Service Mesh (mTLS) | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Load Balancer + HTTPS | ❌ | ❌ | ❌ | ❌ | ✅ |
 | **💰 Custos** |
-| Setup Inicial | Grátis | Grátis | Grátis | ~$50 | ~$100 |
-| Custo Mensal (on-prem) | $0 | $0 | $0 | - | - |
-| Custo Mensal (AWS) | - | - | - | ~$0.40 | ~$5-10 |
+| Setup Inicial | Grátis | Grátis | Grátis | ~$50 | Grátis-$100 |
+| Custo Mensal (on-prem) | $0 | $0 | $0 | - | $0 (Kind) |
+| Custo Mensal (AWS) | - | - | - | ~$0.40 | $35-46 |
 | **📈 Escalabilidade** |
 | Para quantos secrets? | ~10 | ~50 | ~500+ | ~1000+ | ~10000+ |
 | Equipes simultâneas | 1-2 | 2-5 | 5-20 | 20-50 | 50+ |
@@ -341,11 +391,14 @@ cd monitoring-security-level4
 - Tem workloads **cloud-native**
 
 ### 🟣 Escolha Level 5 se você:
-- Está em **ambiente Kubernetes**
-- Precisa de **Zero-Trust** architecture
-- Trabalha com **microservices** complexos
-- Requer **mTLS** entre serviços
-- Tem budget para **enterprise-grade** security
+- Está em **ambiente Kubernetes** (ou quer aprender K8s)
+- Precisa de **sincronização automática** de secrets
+- Quer **ZERO arquivos `.env`** (secrets direto do Vault)
+- Trabalha com **microservices** e precisa de escalabilidade
+- Quer **3 opções**: Local ($0), AWS EKS ($35/mês), ou EKS+Ingress+HTTPS ($46/mês)
+- Precisa de **Load Balancer** + HTTPS automático (Let's Encrypt)
+- Requer **auto-configuração** (Zabbix e Grafana prontos)
+- Tem budget **flexível** (de gratuito até enterprise)
 
 ---
 
@@ -380,6 +433,7 @@ Cada nível possui documentação completa em seu repositório:
 - [📗 Level 2 - Documentation](https://github.com/jlui70/monitoring-security-level2#readme)
 - [📙 Level 3 - Documentation](https://github.com/jlui70/monitoring-security-level3#readme)
 - [📕 Level 4 - Documentation](https://github.com/jlui70/monitoring-security-level4#readme)
+- [📜 Level 5 - Documentation](https://github.com/jlui70/monitoring-security-level5#readme)
 
 ### 🎬 Vídeos e Tutoriais
 
@@ -406,15 +460,24 @@ Cada nível possui documentação completa em seu repositório:
 ## 🚦 Roadmap
 
 ### ✅ Concluído
-- [x] Level 1: Base Funcional (Docker Compose)
-- [x] Level 2: Environment Variables
-- [x] Level 3: HashiCorp Vault On-Premise
-- [x] Level 4: AWS Secrets Manager + Cloud Native
+- [x] **Level 1:** Base Funcional (Docker Compose)
+- [x] **Level 2:** Environment Variables
+- [x] **Level 3:** HashiCorp Vault On-Premise
+- [x] **Level 4:** AWS Secrets Manager + Cloud Native
+- [x] **Level 5:** Kubernetes + External Secrets Operator ✨ **NOVO!**
+  - [x] External Secrets Operator (ESO)
+  - [x] 3 opções de deploy (Kind, EKS, EKS+Ingress)
+  - [x] Load Balancer + HTTPS automático
+  - [x] Auto-configuração Zabbix e Grafana
+  - [x] Sincronização automática (refresh 1h)
 
-### 🚧 Em Desenvolvimento
-- [ ] Level 5: Kubernetes + Zero-Trust
-  - [ ] External Secrets Operator
-  - [ ] Service Mesh (Istio/Linkerd)
+### 🔮 Planejado para o Futuro
+- [ ] **Level 5 - Expansões:**
+  - [ ] Service Mesh (Istio/Linkerd) com mTLS
+  - [ ] Policy Engine (OPA/Kyverno)
+  - [ ] Vault HA mode (produção)
+  - [ ] Multi-cluster setup
+- [ ] **Level 6:** Multi-Cloud (AWS + Azure + GCP)
   - [ ] Policy Engine (OPA)
   - [ ] Multi-cloud support
 
@@ -475,12 +538,15 @@ A: Não! Escolha o nível que atende suas necessidades. O Level 1 é bom para ap
 - Level 2: 1-2 horas
 - Level 3: 4-8 horas (setup inicial do Vault)
 - Level 4: 2-4 horas (se já conhece AWS)
-- Level 5: 1-2 dias (setup Kubernetes + integração)
+- Level 5: **35-45 minutos** (deploy totalmente automatizado!)
 
 **Q: Qual o custo real em produção?**  
 - Levels 1-3: Apenas custo de infraestrutura (VMs)
 - Level 4: $0.40/secret/mês + infraestrutura AWS
-- Level 5: Cluster K8s (~$70-150/mês) + secrets
+- Level 5: 
+  - **Kind (local):** $0/mês ✅
+  - **AWS EKS:** ~$35/mês (cluster + nodes)
+  - **AWS EKS + Ingress:** ~$46/mês (cluster + nodes + Load Balancer)
 
 ---
 
@@ -512,6 +578,7 @@ Encontrou um bug? Abra uma issue no repositório correspondente:
 - [Issues Level 2](https://github.com/jlui70/monitoring-security-level2/issues)
 - [Issues Level 3](https://github.com/jlui70/monitoring-security-level3/issues)
 - [Issues Level 4](https://github.com/jlui70/monitoring-security-level4/issues)
+- [Issues Level 5](https://github.com/jlui70/monitoring-security-level5/issues)
 
 ---
 
