@@ -64,10 +64,10 @@ Proporcionar um **caminho de aprendizado prático** para implementar segurança 
 </tr>
 <tr>
 <td>🔴 <a href="https://github.com/jlui70/monitoring-security-level4"><strong>L4</strong></a></td>
-<td><strong>Cloud</strong></td>
-<td>AWS ECS/Fargate</td>
+<td><strong>AWS Cloud</strong></td>
+<td>Terraform + EC2</td>
 <td>AWS Secrets Mgr</td>
-<td>~$0.40</td>
+<td>~$35</td>
 <td>✅ Completo</td>
 </tr>
 <tr>
@@ -100,7 +100,7 @@ Proporcionar um **caminho de aprendizado prático** para implementar segurança 
 Docker      .env        On-Prem     Secrets      K8s +
 Compose     Files       Vault       Manager      Vault
 
-$0/mês      $0/mês      $0/mês     ~$0.40/mês   $0-46/mês
+$0/mês      $0/mês      $0/mês     ~$35/mês    $0-46/mês
 Dev/POC    Dev/Stage    Small Prod  Medium Prod  Enterprise
 ```
 
@@ -204,12 +204,12 @@ cd monitoring-security-level4
 
 **Evolução do Level 3:**
 - ✅ **AWS Secrets Manager** totalmente gerenciado
-- ✅ Integração nativa com **ECS/Fargate**
+- ✅ Infraestrutura com **Terraform + EC2**
 - ✅ **Rotation automática** via Lambda
 - ✅ **Encryption com KMS**
 - ✅ **Fine-grained IAM policies**
 - ✅ **VPC Endpoints** para segurança adicional
-- 💰 Custo: ~$0.40/mês ($0.40 por secret)
+- 💰 Custo: ~$35/mês (EC2 t3.medium + Secrets Manager)
 
 **Arquitetura:**
 ```
@@ -355,7 +355,7 @@ cd monitoring-security-level5
 | **💰 Custos** |
 | Setup Inicial | Grátis | Grátis | Grátis | ~$50 | Grátis-$100 |
 | Custo Mensal (on-prem) | $0 | $0 | $0 | - | $0 (Kind) |
-| Custo Mensal (AWS) | - | - | - | ~$0.40 | $35-46 |
+| Custo Mensal (AWS) | - | - | - | ~$35 | $35-46 |
 | **📈 Escalabilidade** |
 | Para quantos secrets? | ~10 | ~50 | ~500+ | ~1000+ | ~10000+ |
 | Equipes simultâneas | 1-2 | 2-5 | 5-20 | 20-50 | 50+ |
@@ -542,7 +542,7 @@ A: Não! Escolha o nível que atende suas necessidades. O Level 1 é bom para ap
 
 **Q: Qual o custo real em produção?**  
 - Levels 1-3: Apenas custo de infraestrutura (VMs)
-- Level 4: $0.40/secret/mês + infraestrutura AWS
+- Level 4: ~$35/mês (EC2 t3.medium + AWS Secrets Manager)
 - Level 5: 
   - **Kind (local):** $0/mês ✅
   - **AWS EKS:** ~$35/mês (cluster + nodes)
