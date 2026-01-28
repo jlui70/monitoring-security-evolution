@@ -12,7 +12,7 @@
 
 ---
 
-## 📖 Sobre o Projeto
+## 📋 Sobre o Projeto
 
 Este projeto demonstra a **evolução progressiva de segurança** em stacks de monitoramento, começando de uma implementação básica funcional até arquiteturas enterprise com Zero-Trust. Cada nível adiciona camadas de segurança, secrets management e melhores práticas de DevSecOps.
 
@@ -550,26 +550,6 @@ A: Não! Escolha o nível que atende suas necessidades. O Level 1 é bom para ap
 
 ---
 
-## 🤝 Contribuindo
-
-Contribuições são muito bem-vindas! 🎉
-
-### Como Contribuir
-
-1. Escolha o **repositório do nível** que deseja contribuir
-2. Faça um **fork** do repositório
-3. Crie uma **branch** para sua feature (`git checkout -b feature/melhoria`)
-4. **Commit** suas mudanças (`git commit -m 'feat: adiciona melhoria X'`)
-5. **Push** para a branch (`git push origin feature/melhoria`)
-6. Abra um **Pull Request**
-
-### 📝 Guidelines
-
-- Scripts devem ter tratamento de erros
-- Documentação em português (PT-BR)
-- Siga as melhores práticas de segurança
-- Teste antes de submeter PR
-
 ### 🐛 Reportar Bugs
 
 Encontrou um bug? Abra uma issue no repositório correspondente:
@@ -590,20 +570,6 @@ Encontrou um bug? Abra uma issue no repositório correspondente:
 
 ---
 
-## 🙏 Créditos e Agradecimentos
-
-### 🌟 Tecnologias Utilizadas
-
-Agradecimentos especiais às comunidades open-source:
-
-- **Zabbix** - Enterprise monitoring solution
-- **Grafana** - Beautiful metrics visualization
-- **Prometheus** - Cloud-native monitoring
-- **HashiCorp Vault** - Secrets management platform
-- **AWS** - Cloud infrastructure
-- **Kubernetes** - Container orchestration
-- **Docker** - Containerization platform
-
 ### 💙 Comunidade
 
 Este projeto foi criado para ajudar a comunidade brasileira de DevOps e Cloud a implementar segurança de forma progressiva e prática.
@@ -617,12 +583,6 @@ Este projeto foi criado para ajudar a comunidade brasileira de DevOps e Cloud a 
 - 📹 **YouTube:** [DevOps Project](https://www.youtube.com/@devops-project)
 - 💼 **Portfólio:** [devopsproject.com.br](https://devopsproject.com.br/)
 - 💻 **GitHub:** [@jlui70](https://github.com/jlui70)
-
-### 💬 Precisa de Ajuda?
-
-- 🐛 Abra uma issue no repositório correspondente
-- 💡 Participe das discussões no YouTube
-- 📧 Entre em contato via portfólio
 
 ### 🌟 Gostou do Projeto?
 
