@@ -1,6 +1,10 @@
 # 🔐 Monitoring Security Evolution
 
 <p align="center">
+  <img src="Diagrama minimalista Monitoring Security Evolution.png" alt="Monitoring Security Evolution - Stack Tecnológico" width="800"/>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Security-5_Levels-red?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
   <img src="https://img.shields.io/badge/Kubernetes-K8s-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" />
